@@ -92,7 +92,7 @@ void ModifyStudents() {
 	while(1) {
 		char choice;
 
-		cout << "\t\tCurrent Students" << endl;
+		cout << "\n\t\tCurrent Students" << endl;
 		if(studentCount == 0) cout << "None..." << endl;
 		else {
 			for(int i = 0; i < studentCount; i++) {
