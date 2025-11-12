@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <ctime>
+#include <limits>
 using namespace std;
 
 #define MAX_STUDENTS 100
@@ -91,7 +92,7 @@ void AddStudent() {
 		char confirm;
 
 		cout << endl << "Enter a name (type 'exit' to stop): ";
-		cin.ignore('\n');
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		getline(cin, studentName);
 
 		if(studentName == "exit") break;
@@ -137,7 +138,16 @@ void AddStudent() {
 }
 
 void RemoveStudent() {
+	if(studentCount <= 0) {
+		cout << ">> THERE ARE NO STUDENTS!" << "\n\n";
+		return;
+	}
 
+	while(1) {
+
+	}
+
+	refreshStudentList();
 }
 
 void ModifyStudents() {
