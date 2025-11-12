@@ -38,17 +38,17 @@ void AttendanceCheck() {
 			char status;
 
 			cout << endl << i+1 << ". " << studentNames[i] << endl;
-			cout << "\t+ A: Absent" << endl;
-			cout << "\t+ B: Present" << endl;
-			cout << "\t+ C: Late" << endl;
+			cout << "\t+ A: Present" << endl;
+			cout << "\t+ B: Late" << endl;
+			cout << "\t+ C: Absent" << endl;
 			cout << "\t>> ";
 			cin >> status;
 			status = tolower(status);
 
 			switch(status) {
-				case 'a': { studentStatus[i] = "Absent"; break; }
-				case 'b': { studentStatus[i] = "Present"; break; }
-				case 'c': { studentStatus[i] = "Late"; break; }
+				case 'a': { studentStatus[i] = "Present"; break; }
+				case 'b': { studentStatus[i] = "Late"; break; }
+				case 'c': { studentStatus[i] = "Absent"; break; }
 				default: { cout << ">> INVALID!" << endl; continue; }
 			}
 
@@ -68,7 +68,7 @@ void AttendanceCheck() {
 	
 	ofstream generatedAttendance(filename);
 	if(!generatedAttendance) {
-		cout << "ERROR: Can't find students text file!" << endl;
+		cout << "ERROR: Can't create attendance log!" << endl;
 		return;
 	}
 
@@ -78,6 +78,14 @@ void AttendanceCheck() {
 
 	generatedAttendance.close();
 	cout << "\n>> ATTENDANCE LOG SUCCESSFULLY GENERATED!" << "\n\n";
+}
+
+void AddStudent() {
+
+}
+
+void RemoveStudent() {
+
 }
 
 void ModifyStudents() {
@@ -92,7 +100,17 @@ void ModifyStudents() {
 			}
 		}
 
-		cout << endl << "+ A: "
+		cout << endl << "+ A: Add Student" << endl;
+		cout << "+ B: Remove Student" << endl;
+		cout << "+ C: Exit" << endl;
+		cout << ">> ";
+		cin >> choice;
+		choice = tolower(choice);
+
+		if(choice == 'a') AddStudent();
+		else if(choice == 'b') RemoveStudent();
+		else if(choice == 'c') break;
+		else cout << ">> INVALID!" << endl;
 	}
 }
 
