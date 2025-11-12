@@ -37,7 +37,7 @@ void AttendanceCheck() {
 		while(1) {
 			char status;
 
-			cout << i+1 << ". " << studentNames[i] << endl;
+			cout << endl << i+1 << ". " << studentNames[i] << endl;
 			cout << "\t+ A: Absent" << endl;
 			cout << "\t+ B: Present" << endl;
 			cout << "\t+ C: Late" << endl;
@@ -75,9 +75,25 @@ void AttendanceCheck() {
 	for(int i = 0; i < studentCount; i++) {
 		generatedAttendance << studentStatus[i] << "\t\t|\t\t" << studentNames[i] << endl;
 	}
-	generatedAttendance.close();
 
+	generatedAttendance.close();
 	cout << "\n>> ATTENDANCE LOG SUCCESSFULLY GENERATED!" << "\n\n";
+}
+
+void ModifyStudents() {
+	while(1) {
+		char choice;
+
+		cout << "\t\tCurrent Students" << endl;
+		if(studentCount == 0) cout << "None..." << endl;
+		else {
+			for(int i = 0; i < studentCount; i++) {
+				cout << i+1 << ". " << studentNames[i] << endl;
+			}
+		}
+
+		cout << endl << "+ A: "
+	}
 }
 
 int main() {
@@ -96,11 +112,11 @@ int main() {
 		choice = tolower(choice);
 
 		if(choice == 'a') {
-			cout << ">> STARTING ATTENDANCE CHECK" << "\n\n";
+			cout << ">> STARTING ATTENDANCE CHECK" << endl;
 			AttendanceCheck();
 		} else if(choice == 'b') {
 			cout << ">> MODIFYING STUDENTS" << endl;
-			// ModifyStudents();
+			ModifyStudents();
 		} else if(choice == 'c') {
 			cout << ">> EXITING APP" << endl;
 			break;
