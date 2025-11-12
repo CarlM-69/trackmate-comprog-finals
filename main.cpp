@@ -61,7 +61,23 @@ void AttendanceCheck() {
 	tm* localTime = localtime(&currentTime);
 
 	string filename = "AttendanceLogs/attendance_"
-		+ to_string()
+		+ to_string(localTime->tm_mon + 1) + "-"
+		+ to_string(localTime->tm_mday) + "-"
+		+ to_string(localTime->tm_year % 100)
+		+ ".txt";
+	
+	ofstream generatedAttendance(filename);
+	if(!generatedAttendance) {
+		cout << "ERROR: Can't find students text file!" << endl;
+		return;
+	}
+
+	for(int i = 0; i < studentCount; i++) {
+		generatedAttendance << studentStatus[i] << "\t\t|\t\t" << studentNames[i] << endl;
+	}
+	generatedAttendance.close();
+
+	cout << "\n>> ATTENDANCE LOG SUCCESSFULLY GENERATED!" << "\n\n";
 }
 
 int main() {
@@ -80,8 +96,8 @@ int main() {
 		choice = tolower(choice);
 
 		if(choice == 'a') {
-			cout << ">> STARTING ATTENDANCE CHECK" << endl;
-			// AttendanceCheck();
+			cout << ">> STARTING ATTENDANCE CHECK" << "\n\n";
+			AttendanceCheck();
 		} else if(choice == 'b') {
 			cout << ">> MODIFYING STUDENTS" << endl;
 			// ModifyStudents();
