@@ -32,6 +32,11 @@ void initStudentList() {
 void startAttendance() {
 	char *studentStatus[MAX_STUDENTS];
 
+	if(studentCount == 0) {
+		printf("THERE ARE NO STUDENTS TO CHECK FOR ATTENDANCE!");
+		return;
+	}
+
 	for(int i = 0; i < studentCount; i++) {
 		while(1) {
 			int status;
@@ -66,7 +71,12 @@ void startAttendance() {
 		localTime->tm_mday,
 		(localTime->tm_year + 1900) % 100
 	);
+
 	FILE *attendanceFile = fopen(filename, "w");
+	if(attendanceFile == NULL) {
+		printf("ATTENDANCE LOG CAN'T BE SAVE!\n");
+		return;
+	}
 
 	for(int i = 0; i < studentCount; i++) {
 		fprintf(attendanceFile, "%s\t\t|\t\t%s\n", studentStatus[i], studentNames[i]);
@@ -75,57 +85,133 @@ void startAttendance() {
 
 	printf("\n-------------------------------------\n");
 	printf("ATTENDANCE FOR TODAY IS NOW RECORDED!\n");
-	printf("-------------------------------------\n\n");
+	printf("-------------------------------------");
 }
 
 void studentAdd() {
-	FILE *studentFile = fopen("students.txt", "a");
-	char studentName;
-	int confirm;
+    FILE *studentFile = fopen("students.txt", "a");
 
-	while(1) {
-		printf("\n Enter a Name: ");
-		scanf("%c ", &studentName);
+    if(studentFile == NULL) {
+        printf("STUDENT FILE NAMES CAN'T BE FOUND!\n");
+        return;
+    }
 
-		printf("\nAre you sure you want to add\n");
-		printf("\t%s?\n", studentName);
-		printf("0 - No\n");
-		printf("1 - Yes\n");
-		printf("CONFIRM: ");
-		scanf("%d", &confirm);
+    char studentName[MAX_NAME_LENGTH];
+    int confirm;
 
-		if(confirm == 0) continue;
-		else if(confirm == 1) {
-			sprintf(studentName, "%s\n", studentName);
-			fputs(studentName, studentFile);
+    while(getchar() != '\n'); 
+    while(1) {
+        printf("\nEnter a Name (type 'exit' to stop): ");
+        fgets(studentName, MAX_NAME_LENGTH, stdin);
+        studentName[strcspn(studentName, "\n")] = '\0';
+        if(strcmp(studentName, "exit") == 0) break;
 
-			printf("SUCCESSFULLY ADDED!\n");
-			initStudentList();
-		} else printf("INVALID OPTION!\n");
-	}
+        printf("\nAre you sure you want to add\n");
+        printf("       %s?\n", studentName);
+        printf("0 - No\n");
+        printf("1 - Yes\n");
+        printf("CONFIRM: ");
 
-	fclose(studentFile);
+        scanf("%d", &confirm);
+        while(getchar() != '\n'); 
+
+        if(confirm == 0) continue;
+        else if(confirm == 1) {
+            fprintf(studentFile, "%s\n", studentName);
+            printf("SUCCESSFULLY ADDED!\n");
+        }
+        else printf("INVALID OPTION!\n");
+    }
+
+    fclose(studentFile);
+	initStudentList();
+}
+
+void studentRemove() {
+    if (studentCount == 0) {
+        printf("THERE ARE NO STUDENTS TO REMOVE!\n");
+        return;
+    }
+
+    char studentName[MAX_NAME_LENGTH];
+    int confirm;
+
+    while(getchar() != '\n');
+    while(1) {
+        printf("\nEnter a Name to remove (type 'exit' to stop): ");
+        fgets(studentName, MAX_NAME_LENGTH, stdin);
+        studentName[strcspn(studentName, "\n")] = '\0';
+
+        if(strcmp(studentName, "exit") == 0) break;
+        int found = -1;
+
+        for(int i = 0; i < studentCount; i++) {
+            if(strcmp(studentNames[i], studentName) == 0) {
+                found = i;
+                break;
+            }
+        }
+
+        if(found == -1) {
+            printf("STUDENT NOT FOUND!\n");
+            continue;
+        }
+
+        printf("\nAre you sure you want to remove\n");
+        printf("       %s?\n", studentName);
+        printf("0 - No\n");
+        printf("1 - Yes\n");
+        printf("CONFIRM: ");
+        scanf("%d", &confirm);
+        while(getchar() != '\n');
+
+        if(confirm == 1) {
+            for(int j = found; j < studentCount - 1; j++) {
+                strcpy(studentNames[j], studentNames[j + 1]);
+            }
+            studentCount--;
+            printf("SUCCESSFULLY REMOVED!\n");
+
+            FILE *studentFile = fopen("students.txt", "w");
+            if(studentFile == NULL) {
+                printf("STUDENT FILE NAMES CAN'T BE FOUND!\n");
+                return;
+            }
+
+            for(int i = 0; i < studentCount; i++) {
+                fprintf(studentFile, "%s\n", studentNames[i]);
+            }
+			
+            fclose(studentFile);
+        } else if (confirm == 0) continue;
+		else printf("INVALID OPTION!\n");
+    }
+
+    initStudentList();
 }
 
 void modifyStudents() {
 	int choice;
 
-	printf("\nCURRENT STUDENTS:\n");
-	for(int i = 0; i < studentCount; i++) {
-		printf("%d. %s\n", i+1, studentNames[i]);
-	}
-
 	while(1) {
+		printf("\nCURRENT STUDENTS:\n");
+		if(studentCount == 0) printf("None\n");
+		else {
+			for(int i = 0; i < studentCount; i++) {
+				printf("%d. %s\n", i+1, studentNames[i]);
+			}
+		}
+
 		printf("\n0 - Remove Student\n");
 		printf("1 - Add Student\n");
+		printf("2 - Exit\n");
 		printf("SELECT AN ACTION: ");
 		scanf("%d", &choice);
 
-		if(choice == 0) {
-
-		} else if(choice == 1) {
-			studentAdd();
-		} else printf("INVALID ACTION!\n");
+		if(choice == 0) studentRemove();
+		else if(choice == 1) studentAdd();
+		else if(choice == 2) break;
+		else printf("INVALID ACTION!\n");
 	}
 }
 
