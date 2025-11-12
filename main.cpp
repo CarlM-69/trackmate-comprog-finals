@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <ctime>
+#include <limits>
 using namespace std;
 
 #define MAX_STUDENTS 100
@@ -14,7 +15,7 @@ void refreshStudentList() {
 	ifstream studentFile("students.txt");
 
 	if(!studentFile) {
-		cout << "ERROR: Can't find students text file!" << endl;
+		cout << ">> ERROR: Can't find students text file!" << "\n\n";
 		return;
 	}
 
@@ -37,18 +38,18 @@ void AttendanceCheck() {
 		while(1) {
 			char status;
 
-			cout << i+1 << ". " << studentNames[i] << endl;
-			cout << "\t+ A: Absent" << endl;
-			cout << "\t+ B: Present" << endl;
-			cout << "\t+ C: Late" << endl;
+			cout << endl << i+1 << ". " << studentNames[i] << endl;
+			cout << "\t+ A: Present" << endl;
+			cout << "\t+ B: Late" << endl;
+			cout << "\t+ C: Absent" << endl;
 			cout << "\t>> ";
 			cin >> status;
 			status = tolower(status);
 
 			switch(status) {
-				case 'a': { studentStatus[i] = "Absent"; break; }
-				case 'b': { studentStatus[i] = "Present"; break; }
-				case 'c': { studentStatus[i] = "Late"; break; }
+				case 'a': { studentStatus[i] = "Present"; break; }
+				case 'b': { studentStatus[i] = "Late"; break; }
+				case 'c': { studentStatus[i] = "Absent"; break; }
 				default: { cout << ">> INVALID!" << endl; continue; }
 			}
 
@@ -68,16 +69,111 @@ void AttendanceCheck() {
 	
 	ofstream generatedAttendance(filename);
 	if(!generatedAttendance) {
-		cout << "ERROR: Can't find students text file!" << endl;
+		cout << ">> ERROR: Can't create attendance log!" << "\n\n";
 		return;
 	}
 
 	for(int i = 0; i < studentCount; i++) {
 		generatedAttendance << studentStatus[i] << "\t\t|\t\t" << studentNames[i] << endl;
 	}
-	generatedAttendance.close();
 
+	generatedAttendance.close();
 	cout << "\n>> ATTENDANCE LOG SUCCESSFULLY GENERATED!" << "\n\n";
+}
+
+void AddStudent() {
+	if(studentCount >= MAX_STUDENTS) {
+		cout << ">> MAXIMUM STUDENTS LIMIT REACHED!" << "\n\n";
+		return;
+	}
+
+	while(1) {
+		string studentName;
+		char confirm;
+
+		cout << endl << "Enter a name (type 'exit' to stop): ";
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		getline(cin, studentName);
+
+		if(studentName == "exit") break;
+
+		int found = 0;
+		for(int i = 0; i < studentCount; i++) {
+			if(studentName != studentNames[i]) continue;
+			found = 1;
+			break;
+		}
+
+		if(found) {
+			cout << ">> " << studentName << " ALREADY EXISTS!" << endl;
+			continue;
+		}
+
+		while(1) {
+			cout << "Are you sure you want to add" << endl;
+			cout << "+ " << studentName << "? (Y/n)" << endl;
+			cout << ">> ";
+			cin >> confirm;
+			confirm = tolower(confirm);
+
+			if(confirm == 'y' || confirm == 'n') break;
+			else cout << ">> INVALID!" << endl;
+		}
+
+		if(confirm == 'n') continue;
+
+		ofstream studentFile("students.txt", ios::app);
+		if(!studentFile) {
+			cout << ">> ERROR: Can't find students text file!" << "\n\n";
+			return;
+		}
+
+		studentFile << studentName << endl;
+		studentFile.close();
+
+		cout << ">> " << studentName << " HAS BEEN ADDED!" << endl;
+	}
+
+	refreshStudentList();
+}
+
+void RemoveStudent() {
+	if(studentCount <= 0) {
+		cout << ">> THERE ARE NO STUDENTS!" << "\n\n";
+		return;
+	}
+
+	while(1) {
+
+	}
+
+	refreshStudentList();
+}
+
+void ModifyStudents() {
+	while(1) {
+		char choice;
+
+		cout << "\n\t\tCurrent Students" << endl;
+		if(studentCount == 0) cout << "None..." << endl;
+		else {
+			for(int i = 0; i < studentCount; i++) {
+				cout << i+1 << ". " << studentNames[i] << endl;
+			}
+		}
+
+		cout << endl << "+ A: Add Student" << endl;
+		cout << "+ B: Remove Student" << endl;
+		cout << "+ C: Exit" << endl;
+		cout << ">> ";
+		cin >> choice;
+		choice = tolower(choice);
+
+		if(choice == 'a') AddStudent();
+		else if(choice == 'b') RemoveStudent();
+		else if(choice == 'c') break;
+		else cout << ">> INVALID!" << endl;
+	}
 }
 
 int main() {
@@ -96,11 +192,11 @@ int main() {
 		choice = tolower(choice);
 
 		if(choice == 'a') {
-			cout << ">> STARTING ATTENDANCE CHECK" << "\n\n";
+			cout << ">> STARTING ATTENDANCE CHECK" << endl;
 			AttendanceCheck();
 		} else if(choice == 'b') {
 			cout << ">> MODIFYING STUDENTS" << endl;
-			// ModifyStudents();
+			ModifyStudents();
 		} else if(choice == 'c') {
 			cout << ">> EXITING APP" << endl;
 			break;
