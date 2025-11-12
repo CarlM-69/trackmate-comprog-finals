@@ -91,10 +91,22 @@ void AddStudent() {
 		char confirm;
 
 		cout << endl << "Enter a name (type 'exit' to stop): ";
-		cin.ignore();
+		cin.ignore('\n');
 		getline(cin, studentName);
 
 		if(studentName == "exit") break;
+
+		int found = 0;
+		for(int i = 0; i < studentCount; i++) {
+			if(studentName != studentNames[i]) continue;
+			found = 1;
+			break;
+		}
+
+		if(found) {
+			cout << ">> " << studentName << " ALREADY EXISTS!" << endl;
+			continue;
+		}
 
 		while(1) {
 			cout << "Are you sure you want to add" << endl;
@@ -108,18 +120,6 @@ void AddStudent() {
 		}
 
 		if(confirm == 'n') continue;
-
-		int found = 0;
-		for(int i = 0; i < studentCount; i++) {
-			if(studentName != studentNames[i]) continue;
-			found = 1;
-			break;
-		}
-
-		if(found) {
-			cout << ">> " << studentName << " ALREADY EXISTS!" << endl;
-			continue;
-		}
 
 		ofstream studentFile("students.txt", ios::app);
 		if(!studentFile) {
