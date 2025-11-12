@@ -14,7 +14,7 @@ void refreshStudentList() {
 	ifstream studentFile("students.txt");
 
 	if(!studentFile) {
-		cout << "ERROR: Can't find students text file!" << endl;
+		cout << ">> ERROR: Can't find students text file!" << "\n\n";
 		return;
 	}
 
@@ -68,7 +68,7 @@ void AttendanceCheck() {
 	
 	ofstream generatedAttendance(filename);
 	if(!generatedAttendance) {
-		cout << "ERROR: Can't create attendance log!" << endl;
+		cout << ">> ERROR: Can't create attendance log!" << "\n\n";
 		return;
 	}
 
@@ -81,7 +81,59 @@ void AttendanceCheck() {
 }
 
 void AddStudent() {
+	if(studentCount >= MAX_STUDENTS) {
+		cout << ">> MAXIMUM STUDENTS LIMIT REACHED!" << "\n\n";
+		return;
+	}
 
+	while(1) {
+		string studentName;
+		char confirm;
+
+		cout << endl << "Enter a name (type 'exit' to stop): ";
+		cin.ignore();
+		getline(cin, studentName);
+
+		if(studentName == "exit") break;
+
+		while(1) {
+			cout << "Are you sure you want to add" << endl;
+			cout << "+ " << studentName << "? (Y/n)" << endl;
+			cout << ">> ";
+			cin >> confirm;
+			confirm = tolower(confirm);
+
+			if(confirm == 'y' || confirm == 'n') break;
+			else cout << ">> INVALID!" << endl;
+		}
+
+		if(confirm == 'n') continue;
+
+		int found = 0;
+		for(int i = 0; i < studentCount; i++) {
+			if(studentName != studentNames[i]) continue;
+			found = 1;
+			break;
+		}
+
+		if(found) {
+			cout << ">> " << studentName << " ALREADY EXISTS!" << endl;
+			continue;
+		}
+
+		ofstream studentFile("students.txt", ios::app);
+		if(!studentFile) {
+			cout << ">> ERROR: Can't find students text file!" << "\n\n";
+			return;
+		}
+
+		studentFile << studentName << endl;
+		studentFile.close();
+
+		cout << ">> " << studentName << " HAS BEEN ADDED!" << endl;
+	}
+
+	refreshStudentList();
 }
 
 void RemoveStudent() {
