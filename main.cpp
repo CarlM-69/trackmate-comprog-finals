@@ -6,10 +6,12 @@
 using namespace std;
 
 #define MAX_STUDENTS 100
-//test wakin was here HAHAHHAHAH
-string studentNames[MAX_STUDENTS];
-int studentCount = 0;
 
+string studentNames[MAX_STUDENTS]; // string array that holds student names??
+int studentCount = 0; // current number of students
+
+
+//ensures studentNames array is updated with students.txt contents and ensures error-free file handling?? 
 void refreshStudentList() {
 	string lineBuffer;
 	ifstream studentFile("students.txt");
@@ -20,7 +22,7 @@ void refreshStudentList() {
 	}
 
 	/*
-		i-sstore yung line per text file (students.txt) sa may studentNames variable
+		for loop - stores the line per text file (students.txt) in studentNames  (\n???)
 	*/
 	for(studentCount = 0; studentCount < MAX_STUDENTS && getline(studentFile, lineBuffer); studentCount++) {
 		studentNames[studentCount] = lineBuffer;
@@ -28,6 +30,7 @@ void refreshStudentList() {
 
 	studentFile.close();
 }
+
 
 void AttendanceCheck() {
 	string studentStatus[MAX_STUDENTS];
