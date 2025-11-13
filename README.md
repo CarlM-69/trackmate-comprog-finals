@@ -23,14 +23,14 @@ TrackMate is a simple **C++ console application** designed to help teachers or o
 ## File Structure
 
 TrackMate/
-          Folder where attendance logs are saved
-├─ AttendanceLogs/
-          List of student names
-├─ students.txt
-          Project Documentation
-├─ README.md
-          Main program file
-└─ main.cpp
+
+├─ AttendanceLogs/    Folder where attendance logs are saved
+
+├─ students.txt       List of student names
+
+├─ README.md          Project Documentation
+
+└─ main.cpp           Main program file
 
 ---
 
