@@ -97,6 +97,7 @@ void AttendanceCheck() {
 	// o - output
 	// f - file
 	// 	   stream
+	// it means gagawa ng new file
 	ofstream generatedAttendance(filename);
 	if(!generatedAttendance) {
 		cout << ">> ERROR: Can't create attendance log!" << "\n\n";
