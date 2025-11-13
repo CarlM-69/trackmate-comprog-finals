@@ -155,11 +155,11 @@ void RemoveStudent() {
 		getline(cin, studentName);
 
 		if(studentName == "exit") break;
-		int found = 0;
+		bool found = false;
 		
 		for(int i = 0; i < studentCount; i++) {
 			if(studentName != studentNames[i]) continue;
-			found = 1;
+			found = true;
 			break;
 		}
 
