@@ -272,7 +272,7 @@ int main() {
 	while(true) {
 		char choice;
 
-		cout << "------------------------------------------ << " << "\n\n";
+		cout << "------------------------------------------ << " << endl;
 		cout << endl << "\t\tTrackMate" << "\n\n";
 		
 		cout << "+ A: Start Attendance Check" << endl;
@@ -284,11 +284,11 @@ int main() {
 
 		if(choice == 'a') {
 			cout << ">> STARTING ATTENDANCE CHECK" << "\n\n";
-			cout << "------------------------------------------ << " << "\n\n";
+			cout << "------------------------------------------ << " << endl;
 			AttendanceCheck();
 		} else if(choice == 'b') {
 			cout << ">> MODIFYING STUDENTS" << "\n\n";
-			cout << "------------------------------------------ << " << "\n\n";
+			cout << "------------------------------------------ << " << endl;
 			ModifyStudents();
 		} else if(choice == 'c') {
 			cout << ">> EXITING APP" << "\n\n";
