@@ -6,12 +6,14 @@
 using namespace std;
 
 #define MAX_STUDENTS 100
-//test wakin was here HAHAHHAHAH
-string studentNames[MAX_STUDENTS];
-int studentCount = 0;
 
+string studentNames[MAX_STUDENTS]; // string array that holds student names??
+int studentCount = 0; 
+
+
+//ensures studentNames array is updated with students.txt contents and ensures error-free file handling?? 
 void refreshStudentList() {
-	string lineBuffer;
+	string lineBuffer; //CARL PARA SAN TONG LINE BUFFER??? -- New Line??????? 
 	ifstream studentFile("students.txt");
 
 	if(!studentFile) {
@@ -19,15 +21,15 @@ void refreshStudentList() {
 		return;
 	}
 
-	/*
-		i-sstore yung line per text file (students.txt) sa may studentNames variable
-	*/
+	
+	//for loop - stores the line per text file (students.txt) in studentNames  (\n???)
 	for(studentCount = 0; studentCount < MAX_STUDENTS && getline(studentFile, lineBuffer); studentCount++) {
 		studentNames[studentCount] = lineBuffer;
 	}
 
 	studentFile.close();
 }
+
 
 void AttendanceCheck() {
 	string studentStatus[MAX_STUDENTS];
@@ -61,6 +63,7 @@ void AttendanceCheck() {
 		}
 	}
 
+	//initializes time and shit?? 
 	time_t currentTime = time(0);
 	tm* localTime = localtime(&currentTime);
 
@@ -70,12 +73,14 @@ void AttendanceCheck() {
 		+ to_string(localTime->tm_year % 100)
 		+ ".txt";
 	
+	//what the FUCK is 'ofstream'?
 	ofstream generatedAttendance(filename);
 	if(!generatedAttendance) {
 		cout << ">> ERROR: Can't create attendance log!" << "\n\n";
 		return;
 	}
 
+	//prints every status of every student in an AttendanceLogs File?
 	for(int i = 0; i < studentCount; i++) {
 		generatedAttendance << studentStatus[i] << "\t\t|\t\t" << studentNames[i] << endl;
 	}
@@ -101,12 +106,14 @@ void AddStudent() {
 		if(studentName == "exit") break;
 		int found = 0;
 
+		//handles name duplication
 		for(int i = 0; i < studentCount; i++) {
 			if(studentName != studentNames[i]) continue;
 			found = 1;
 			break;
 		}
-
+		
+		//handles name duplication
 		if(found) {
 			cout << ">> " << studentName << " ALREADY EXISTS!" << endl;
 			continue;
