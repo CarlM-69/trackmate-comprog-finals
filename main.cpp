@@ -4,7 +4,7 @@
 #include <ctime>
 #include <limits>
 using namespace std;
-
+//joaquin has hyooj schlong
 #define MAX_STUDENTS 100
 
 string studentNames[MAX_STUDENTS];
