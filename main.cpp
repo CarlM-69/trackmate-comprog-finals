@@ -59,7 +59,7 @@ void AttendanceCheck() {
 	}
 
 	for(int i = 0; i < studentCount; i++) {
-		while(1) {
+		while(true) {
 			char status;
 
 			cout << endl << i+1 << ". " << studentNames[i] << endl;
@@ -104,7 +104,7 @@ void AttendanceCheck() {
 		return;
 	}
 
-	//prints every status of every student in an AttendanceLogs File?
+	//prints every status of every student in an AttendanceLogs File
 	for(int i = 0; i < studentCount; i++) {
 		generatedAttendance << studentStatus[i] << "\t\t|\t\t" << studentNames[i] << endl;
 	}
@@ -119,7 +119,7 @@ void AddStudent() {
 		return;
 	}
 
-	while(1) {
+	while(true) {
 		string studentName;
 		char confirm;
 
@@ -143,7 +143,7 @@ void AddStudent() {
 			continue;
 		}
 
-		while(1) {
+		while(true) {
 			cout << "Are you sure you want to add" << endl;
 			cout << "+ " << studentName << "? (Y/n)" << endl;
 			cout << ">> ";
@@ -177,7 +177,7 @@ void RemoveStudent() {
 		return;
 	}
 
-	while(1) {
+	while(true) {
 		string studentName;
 		char confirm;
 
@@ -199,7 +199,7 @@ void RemoveStudent() {
 			continue;
 		}
 
-		while(1) {
+		while(true) {
 			cout << "Are you sure you want to remove" << endl;
 			cout << "+ " << studentName << "? (Y/n)" << endl;
 			cout << ">> ";
@@ -225,14 +225,14 @@ void RemoveStudent() {
 }
 
 void ModifyStudents() {
-	while(1) {
+	while(true) {
 		char choice;
 
 		cout << "\n\t\tCurrent Students" << endl;
-		if(studentCount == 0) cout << "None..." << endl;
+		if(studentCount == 0) cout << "\tNone..." << endl;
 		else {
 			for(int i = 0; i < studentCount; i++) {
-				cout << i+1 << ". " << studentNames[i] << endl;
+				cout << "\t" << i+1 << ". " << studentNames[i] << endl;
 			}
 		}
 
@@ -253,7 +253,7 @@ void ModifyStudents() {
 int main() {
 	refreshStudentList();
 
-	while(1) {
+	while(true) {
 		char choice;
 
 		cout << endl << "\t\tTrackMate" << "\n\n";
