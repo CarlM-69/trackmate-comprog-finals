@@ -7,7 +7,7 @@ using namespace std;
 
 #define MAX_STUDENTS 100
 
-string studentNames[MAX_STUDENTS]; // string array that holds student names??
+string studentNames[MAX_STUDENTS]; // string array that holds student names
 int studentCount = 0; 
 
 
