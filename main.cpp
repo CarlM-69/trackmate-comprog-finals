@@ -93,6 +93,10 @@ void AttendanceCheck() {
 		+ ".txt";
 	
 	//what the FUCK is 'ofstream'?
+	// ofstream is:
+	// o - output
+	// f - file
+	// 	   stream
 	ofstream generatedAttendance(filename);
 	if(!generatedAttendance) {
 		cout << ">> ERROR: Can't create attendance log!" << "\n\n";
