@@ -187,7 +187,7 @@ void RemoveStudent() {
 			return;
 		}
 
-
+		
 	}
 
 	refreshStudentList();
