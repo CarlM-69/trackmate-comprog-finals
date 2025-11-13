@@ -212,13 +212,30 @@ void RemoveStudent() {
 
 		if(confirm == 'n') continue;
 
-		ofstream studentFile("students.txt");
-		if(!studentFile) {
+		ifstream studentFile_R("students.txt");
+		string tempStudentNames[MAX_STUDENTS];
+		string lineBuffer;
+		int tempStudentCount = 0;
+
+		if(!studentFile_R) {
 			cout << ">> ERROR: Can't find students text file!" << "\n\n";
 			return;
 		}
 
-		
+		while(getline(studentFile_R, lineBuffer)) {
+			if(lineBuffer == studentName) continue;
+			tempStudentNames[tempStudentCount] = lineBuffer;
+			tempStudentCount++;
+		}
+		studentFile_R.close();
+
+		ofstream studentFile_W("students.txt");
+		for(int i = 0; i < tempStudentCount; i++) {
+			studentFile_W << tempStudentNames[i] << endl;
+		}
+		studentFile_W.close();
+
+		cout << ">> " << studentName << " HAS BEEN REMOVED!" << endl;
 	}
 
 	refreshStudentList();
