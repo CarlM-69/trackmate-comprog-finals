@@ -19,6 +19,9 @@ void refreshStudentList() {
 		return;
 	}
 
+	/*
+		i-sstore yung line per text file (students.txt) sa may studentNames variable
+	*/
 	for(studentCount = 0; studentCount < MAX_STUDENTS && getline(studentFile, lineBuffer); studentCount++) {
 		studentNames[studentCount] = lineBuffer;
 	}
@@ -96,8 +99,8 @@ void AddStudent() {
 		getline(cin, studentName);
 
 		if(studentName == "exit") break;
-
 		int found = 0;
+
 		for(int i = 0; i < studentCount; i++) {
 			if(studentName != studentNames[i]) continue;
 			found = 1;
@@ -144,7 +147,47 @@ void RemoveStudent() {
 	}
 
 	while(1) {
+		string studentName;
+		char confirm;
 
+		cout << endl << "Enter a name (type 'exit' to stop): ";
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		getline(cin, studentName);
+
+		if(studentName == "exit") break;
+		int found = 0;
+		
+		for(int i = 0; i < studentCount; i++) {
+			if(studentName != studentNames[i]) continue;
+			found = 1;
+			break;
+		}
+
+		if(!found) {
+			cout << ">> " << studentName << " DOESN'T EXISTS!" << endl;
+			continue;
+		}
+
+		while(1) {
+			cout << "Are you sure you want to remove" << endl;
+			cout << "+ " << studentName << "? (Y/n)" << endl;
+			cout << ">> ";
+			cin >> confirm;
+			confirm = tolower(confirm);
+
+			if(confirm == 'y' || confirm == 'n') break;
+			else cout << ">> INVALID!" << endl;
+		}
+
+		if(confirm == 'n') continue;
+
+		ofstream studentFile("students.txt");
+		if(!studentFile) {
+			cout << ">> ERROR: Can't find students text file!" << "\n\n";
+			return;
+		}
+
+		
 	}
 
 	refreshStudentList();
@@ -198,7 +241,7 @@ int main() {
 			cout << ">> MODIFYING STUDENTS" << endl;
 			ModifyStudents();
 		} else if(choice == 'c') {
-			cout << ">> EXITING APP" << endl;
+			cout << ">> EXITING APP" << "\n\n";
 			break;
 		} else {
 			cout << ">> INVALID!" << endl;
