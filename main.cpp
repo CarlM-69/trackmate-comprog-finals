@@ -241,7 +241,7 @@ int main() {
 			cout << ">> MODIFYING STUDENTS" << endl;
 			ModifyStudents();
 		} else if(choice == 'c') {
-			cout << ">> EXITING APP" << endl;
+			cout << ">> EXITING APP" << "\n\n";
 			break;
 		} else {
 			cout << ">> INVALID!" << endl;
