@@ -14,6 +14,25 @@ int studentCount = 0;
 //ensures studentNames array is updated with students.txt contents and ensures error-free file handling?? 
 void refreshStudentList() {
 	string lineBuffer; //CARL PARA SAN TONG LINE BUFFER??? -- New Line??????? 
+	// line buffer is dyan ilalagay temporarily yung nakuhang line sa text file
+	// kunyare:
+	/*
+		text file:
+			1. burat ko malaki
+			2. omsimnida
+			3. hoy ahaha
+
+		--process--
+		(for loop read the text file from 1 to 3)
+
+		first iteration:
+			lineBuffer is "burat ko malaki"
+		second iteration:
+			lineBuffer is "omsimnida"
+		third iteration:
+			lineBuffer is "hoy ahaha"
+	*/
+
 	ifstream studentFile("students.txt");
 
 	if(!studentFile) {
