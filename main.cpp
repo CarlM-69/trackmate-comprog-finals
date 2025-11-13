@@ -122,7 +122,7 @@ void AddStudent() {
 		string studentName;
 		char confirm;
 
-		cout << endl << "Enter a name (type 'exit' to stop): ";
+		cout << endl << "Enter a name to add(type 'exit' to stop): ";
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		getline(cin, studentName);
 
@@ -180,7 +180,7 @@ void RemoveStudent() {
 		string studentName;
 		char confirm;
 
-		cout << endl << "Enter a name (type 'exit' to stop): ";
+		cout << endl << "Enter a name to remove(type 'exit' to stop): ";
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		getline(cin, studentName);
 
