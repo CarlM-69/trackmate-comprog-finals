@@ -49,7 +49,6 @@ void refreshStudentList() {
 	studentFile.close();
 }
 
-
 void AttendanceCheck() {
 	string studentStatus[MAX_STUDENTS];
 
@@ -77,7 +76,7 @@ void AttendanceCheck() {
 				default: { cout << ">> INVALID!" << endl; continue; }
 			}
 
-			cout << studentNames[i] << " is " << studentStatus[i] << endl;
+			cout << studentNames[i] << " is " << studentStatus[i] << "\n\n";
 			break;
 		}
 	}
@@ -273,6 +272,7 @@ int main() {
 	while(true) {
 		char choice;
 
+		cout << "------------------------------------------ << " << endl;
 		cout << endl << "\t\tTrackMate" << "\n\n";
 		
 		cout << "+ A: Start Attendance Check" << endl;
@@ -283,10 +283,12 @@ int main() {
 		choice = tolower(choice);
 
 		if(choice == 'a') {
-			cout << ">> STARTING ATTENDANCE CHECK" << endl;
+			cout << ">> STARTING ATTENDANCE CHECK" << "\n\n";
+			cout << "------------------------------------------ << " << endl;
 			AttendanceCheck();
 		} else if(choice == 'b') {
-			cout << ">> MODIFYING STUDENTS" << endl;
+			cout << ">> MODIFYING STUDENTS" << "\n\n";
+			cout << "------------------------------------------ << " << endl;
 			ModifyStudents();
 		} else if(choice == 'c') {
 			cout << ">> EXITING APP" << "\n\n";
