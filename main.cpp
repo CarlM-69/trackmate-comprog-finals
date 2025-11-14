@@ -13,7 +13,7 @@ int studentCount = 0;
 
 //ensures studentNames array is updated with students.txt contents and ensures error-free file handling?? 
 void refreshStudentList() {
-	string lineBuffer; //CARL PARA SAN TONG LINE BUFFER??? -- New Line??????? 
+	string lineBuffer; 
 	// line buffer is dyan ilalagay temporarily yung nakuhang line sa text file
 	// kunyare:
 	/*
@@ -91,7 +91,7 @@ void AttendanceCheck() {
 		+ to_string(localTime->tm_year % 100)
 		+ ".txt";
 	
-	//what the FUCK is 'ofstream'?
+
 	// ofstream is:
 	// o - output
 	// f - file
