@@ -187,6 +187,7 @@ void RemoveStudent() {
 		if(studentName == "exit") break;
 		bool found = false;
 		
+		//checks if the student exists
 		for(int i = 0; i < studentCount; i++) {
 			if(studentName != studentNames[i]) continue;
 			found = true;
@@ -211,6 +212,7 @@ void RemoveStudent() {
 
 		if(confirm == 'n') continue;
 
+		//ano meaning ng studentFile_R??
 		ifstream studentFile_R("students.txt");
 		string tempStudentNames[MAX_STUDENTS];
 		string lineBuffer;
@@ -221,6 +223,7 @@ void RemoveStudent() {
 			return;
 		}
 
+		//ano ginagawa netong while loop??
 		while(getline(studentFile_R, lineBuffer)) {
 			if(lineBuffer == studentName) continue;
 			tempStudentNames[tempStudentCount] = lineBuffer;
@@ -228,6 +231,7 @@ void RemoveStudent() {
 		}
 		studentFile_R.close();
 
+		//ano meaning ng studentFile_W??
 		ofstream studentFile_W("students.txt");
 		for(int i = 0; i < tempStudentCount; i++) {
 			studentFile_W << tempStudentNames[i] << endl;
