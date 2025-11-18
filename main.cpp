@@ -161,6 +161,7 @@ void AddStudent() {
 			return;
 		}
 
+		//adds new student name to students.txt
 		studentFile << studentName << endl;
 		studentFile.close();
 
