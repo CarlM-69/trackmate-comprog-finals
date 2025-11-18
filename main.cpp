@@ -161,6 +161,7 @@ void AddStudent() {
 			return;
 		}
 
+		//adds new student name to students.txt
 		studentFile << studentName << endl;
 		studentFile.close();
 
@@ -231,8 +232,9 @@ void RemoveStudent() {
 		}
 		studentFile_R.close();
 
-		//ano meaning ng studentFile_W??
+		
 		ofstream studentFile_W("students.txt");
+		//rewrites the students.txt file without the removed student?
 		for(int i = 0; i < tempStudentCount; i++) {
 			studentFile_W << tempStudentNames[i] << endl;
 		}
