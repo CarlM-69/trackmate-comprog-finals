@@ -41,7 +41,7 @@ void refreshStudentList() {
 	}
 
 	
-	//for loop - stores the line per text file (students.txt) in studentNames  (\n???)
+	//for loop - stores the line per text of file (students.txt) in studentNames  (\n???)
 	for(studentCount = 0; studentCount < MAX_STUDENTS && getline(studentFile, lineBuffer); studentCount++) {
 		studentNames[studentCount] = lineBuffer;
 	}
