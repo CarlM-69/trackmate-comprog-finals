@@ -233,6 +233,7 @@ void RemoveStudent() {
 
 		
 		ofstream studentFile_W("students.txt");
+		//rewrites the students.txt file without the removed student?
 		for(int i = 0; i < tempStudentCount; i++) {
 			studentFile_W << tempStudentNames[i] << endl;
 		}
