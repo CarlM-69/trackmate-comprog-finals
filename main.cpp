@@ -18,19 +18,19 @@ void refreshStudentList() {
 	// kunyare:
 	/*
 		text file:
-			1. burat ko malaki
-			2. omsimnida
-			3. hoy ahaha
+			1. hi
+			2. hey
+			3. hoy 
 
 		--process--
 		(for loop read the text file from 1 to 3)
 
 		first iteration:
-			lineBuffer is "burat ko malaki"
+			lineBuffer is "hi"
 		second iteration:
-			lineBuffer is "omsimnida"
+			lineBuffer is "hey"
 		third iteration:
-			lineBuffer is "hoy ahaha"
+			lineBuffer is "hoy"
 	*/
 
 	ifstream studentFile("students.txt");
@@ -81,7 +81,7 @@ void AttendanceCheck() {
 		}
 	}
 
-	//initializes time and shit?? 
+	//initializes time for attendance logs
 	time_t currentTime = time(0);
 	tm* localTime = localtime(&currentTime);
 
@@ -213,7 +213,7 @@ void RemoveStudent() {
 
 		if(confirm == 'n') continue;
 
-		//ano meaning ng studentFile_R??
+		//temporary storage of students text file contents
 		ifstream studentFile_R("students.txt");
 		string tempStudentNames[MAX_STUDENTS];
 		string lineBuffer;
@@ -224,7 +224,7 @@ void RemoveStudent() {
 			return;
 		}
 
-		//ano ginagawa netong while loop??
+		//temporarily stores text file contents to tempStudentNames
 		while(getline(studentFile_R, lineBuffer)) {
 			if(lineBuffer == studentName) continue;
 			tempStudentNames[tempStudentCount] = lineBuffer;
@@ -234,7 +234,7 @@ void RemoveStudent() {
 
 		
 		ofstream studentFile_W("students.txt");
-		//rewrites the students.txt file without the removed student?
+		//rewrites the students.txt file without the removed student
 		for(int i = 0; i < tempStudentCount; i++) {
 			studentFile_W << tempStudentNames[i] << endl;
 		}
