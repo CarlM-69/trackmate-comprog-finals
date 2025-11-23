@@ -175,7 +175,7 @@ void RemoveStudent() {
 		}
 
 		int studentNo = stoi(answer) - 1;
-		if(studentNo > studentCount) {
+		if(studentNo > studentCount || studentNo < 0) {
 			cout << ">> STUDENT NO. " << studentNo << " DOESN'T EXIST!";
 			continue;
 		}
@@ -273,7 +273,7 @@ int main() {
 			cout << "------------------------------------------ << " << endl;
 			ModifyStudents();
 		} else if(choice == 'c') {
-			cout << ">> EXITING APP" << "\n\n";
+			cout << ">> EXITING APP" << "\n";
 			break;
 		} else {
 			cout << ">> INVALID!" << endl;
