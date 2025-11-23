@@ -91,7 +91,7 @@ void AddStudent() {
 		string studentName;
 		char confirm;
 
-		cout << endl << "Enter a name to add(type 'exit' to stop): ";
+		cout << endl << "Enter a name to add (type 'exit' to stop): ";
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		getline(cin, studentName);
 
@@ -144,30 +144,45 @@ void RemoveStudent() {
 	}
 
 	while(true) {
-		string studentName;
+		cout << "\n\t\tCurrent Students" << endl;
+		if(studentCount == 0) cout << "\tNone..." << endl;
+		else {
+			for(int i = 0; i < studentCount; i++) {
+				cout << "\t" << i+1 << ". " << studentNames[i] << endl;
+			}
+		}
+
+		string answer;
 		char confirm;
 
-		cout << endl << "Enter a name to remove(type 'exit' to stop): ";
+		cout << endl << "Enter a student number to remove (type 'exit' to stop): ";
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		getline(cin, studentName);
+		getline(cin, answer);
 
-		if(studentName == "exit") break;
-		bool found = false;
-		
-		for(int i = 0; i < studentCount; i++) {
-			if(studentName != studentNames[i]) continue;
-			found = true;
+		if(answer == "exit") break;
+		bool isNumeric = true;
+
+		for(char c : answer) {
+			if(isdigit(c)) continue;
+
+			isNumeric = false;
 			break;
 		}
 
-		if(!found) {
-			cout << ">> " << studentName << " DOESN'T EXISTS!" << endl;
+		if(!isNumeric) {
+			cout << "INVALID!" << endl;
+			continue;
+		}
+
+		int studentNo = stoi(answer) - 1;
+		if(studentNo > studentCount) {
+			cout << ">> STUDENT NO. " << studentNo << " DOESN'T EXIST!";
 			continue;
 		}
 
 		while(true) {
 			cout << "Are you sure you want to remove" << endl;
-			cout << "+ " << studentName << "? (Y/n)" << endl;
+			cout << "+ " << studentNames[studentNo] << "? (Y/n)" << endl;
 			cout << ">> ";
 			cin >> confirm;
 			confirm = tolower(confirm);
@@ -189,7 +204,7 @@ void RemoveStudent() {
 		}
 
 		while(getline(studentFile_R, lineBuffer)) {
-			if(lineBuffer == studentName) continue;
+			if(lineBuffer == studentNames[studentNo]) continue;
 			tempStudentNames[tempStudentCount] = lineBuffer;
 			tempStudentCount++;
 		}
@@ -202,10 +217,9 @@ void RemoveStudent() {
 		}
 		studentFile_W.close();
 
-		cout << ">> " << studentName << " HAS BEEN REMOVED!" << endl;
+		cout << ">> " << studentNames[studentNo] << " HAS BEEN REMOVED!" << endl;
+		refreshStudentList();
 	}
-
-	refreshStudentList();
 }
 
 void ModifyStudents() {
@@ -241,7 +255,7 @@ int main() {
 		char choice;
 
 		cout << "------------------------------------------ << " << endl;
-		cout << endl << "\t\tTrackMate" << "\n\n";
+		cout << endl << "\t\tAttendify" << "\n\n";
 		
 		cout << "+ A: Start Attendance Check" << endl;
 		cout << "+ B: Modify Students" << endl;
