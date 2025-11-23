@@ -7,32 +7,11 @@ using namespace std;
 
 #define MAX_STUDENTS 100
 
-string studentNames[MAX_STUDENTS]; // string array that holds student names
+string studentNames[MAX_STUDENTS];
 int studentCount = 0; 
 
-
-//ensures studentNames array is updated with students.txt contents and ensures error-free file handling?? 
 void refreshStudentList() {
-	string lineBuffer; 
-	// line buffer is dyan ilalagay temporarily yung nakuhang line sa text file
-	// kunyare:
-	/*
-		text file:
-			1. hi
-			2. hey
-			3. hoy 
-
-		--process--
-		(for loop read the text file from 1 to 3)
-
-		first iteration:
-			lineBuffer is "hi"
-		second iteration:
-			lineBuffer is "hey"
-		third iteration:
-			lineBuffer is "hoy"
-	*/
-
+	string lineBuffer;
 	ifstream studentFile("students.txt");
 
 	if(!studentFile) {
@@ -40,8 +19,6 @@ void refreshStudentList() {
 		return;
 	}
 
-	
-	//for loop - stores the line per text of file (students.txt) in studentNames  (\n???)
 	for(studentCount = 0; studentCount < MAX_STUDENTS && getline(studentFile, lineBuffer); studentCount++) {
 		studentNames[studentCount] = lineBuffer;
 	}
@@ -81,7 +58,6 @@ void AttendanceCheck() {
 		}
 	}
 
-	//initializes time for attendance logs
 	time_t currentTime = time(0);
 	tm* localTime = localtime(&currentTime);
 
@@ -91,19 +67,12 @@ void AttendanceCheck() {
 		+ to_string(localTime->tm_year % 100)
 		+ ".txt";
 	
-
-	// ofstream is:
-	// o - output
-	// f - file
-	// 	   stream
-	// it means gagawa ng new file
 	ofstream generatedAttendance(filename);
 	if(!generatedAttendance) {
 		cout << ">> ERROR: Can't create attendance log!" << "\n\n";
 		return;
 	}
 
-	//prints every status of every student in an AttendanceLogs File
 	for(int i = 0; i < studentCount; i++) {
 		generatedAttendance << studentStatus[i] << "\t\t|\t\t" << studentNames[i] << endl;
 	}
@@ -129,14 +98,12 @@ void AddStudent() {
 		if(studentName == "exit") break;
 		int found = 0;
 
-		//handles name duplication
 		for(int i = 0; i < studentCount; i++) {
 			if(studentName != studentNames[i]) continue;
 			found = 1;
 			break;
 		}
 		
-		//handles name duplication
 		if(found) {
 			cout << ">> " << studentName << " ALREADY EXISTS!" << endl;
 			continue;
@@ -161,7 +128,6 @@ void AddStudent() {
 			return;
 		}
 
-		//adds new student name to students.txt
 		studentFile << studentName << endl;
 		studentFile.close();
 
@@ -188,7 +154,6 @@ void RemoveStudent() {
 		if(studentName == "exit") break;
 		bool found = false;
 		
-		//checks if the student exists
 		for(int i = 0; i < studentCount; i++) {
 			if(studentName != studentNames[i]) continue;
 			found = true;
@@ -213,7 +178,6 @@ void RemoveStudent() {
 
 		if(confirm == 'n') continue;
 
-		//temporary storage of students text file contents
 		ifstream studentFile_R("students.txt");
 		string tempStudentNames[MAX_STUDENTS];
 		string lineBuffer;
@@ -224,7 +188,6 @@ void RemoveStudent() {
 			return;
 		}
 
-		//temporarily stores text file contents to tempStudentNames
 		while(getline(studentFile_R, lineBuffer)) {
 			if(lineBuffer == studentName) continue;
 			tempStudentNames[tempStudentCount] = lineBuffer;
@@ -234,7 +197,6 @@ void RemoveStudent() {
 
 		
 		ofstream studentFile_W("students.txt");
-		//rewrites the students.txt file without the removed student
 		for(int i = 0; i < tempStudentCount; i++) {
 			studentFile_W << tempStudentNames[i] << endl;
 		}
