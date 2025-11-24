@@ -229,14 +229,17 @@ void RemoveStudent() {
         printf("\nEnter a student number to remove (type 'exit' to stop): ");
         
         int c;
-        while ((c = getchar()) != '\n' && c != EOF);
 
+		// clean buffer and get user input
+        while ((c = getchar()) != '\n' && c != EOF);
         fgets(answer, sizeof(answer), stdin);
         answer[strcspn(answer, "\n")] = 0;
 
+		// exit condition
         if(strcmp(answer, "exit") == 0) break;
         bool isNumeric = true;
 
+		// iterates to every character to make sure that it is only numeric
         for(int i = 0; answer[i] != '\0'; i++) {
             if(isdigit(answer[i])) continue;
 
@@ -244,17 +247,21 @@ void RemoveStudent() {
             break;
         }
 
+		// if not numeric then we'll have to restart
         if(!isNumeric) {
             printf("INVALID!\n");
             continue;
         }
 
+
+		// checks if input is more than the total student count
         int studentNo = atoi(answer) - 1;
         if(studentNo >= studentCount || studentNo < 0) {
             printf(">> STUDENT NO. %d DOESN'T EXIST!", studentNo + 1);
             continue;
         }
 
+		// force input until Y or N is entered
         while(true) {
             printf("Are you sure you want to remove\n");
             printf("+ %s? (Y/n)\n", studentNames[studentNo]);
@@ -268,18 +275,23 @@ void RemoveStudent() {
 
         if(confirm == 'n') continue;
 
+		// initialize students.txt
         FILE *studentFile_R = fopen("students.txt", "r");
         char tempStudentNames[MAX_STUDENTS][MAX_NAME_LEN];
         char lineBuffer[MAX_NAME_LEN];
         int tempStudentCount = 0;
 
+		// check if students.exe is missing
         if(!studentFile_R) {
             printf(">> ERROR: Can't find students text file!\n\n");
             return;
         }
 
+		// copy file to memory, skipping the deleted student
         while(fgets(lineBuffer, sizeof(lineBuffer), studentFile_R)) {
             lineBuffer[strcspn(lineBuffer, "\n")] = 0;
+
+			// if true, this is the student we will delete, so skip iteration
             if(strcmp(lineBuffer, studentNames[studentNo]) == 0) continue;
             
             strcpy(tempStudentNames[tempStudentCount], lineBuffer);
@@ -287,25 +299,35 @@ void RemoveStudent() {
         }
         fclose(studentFile_R);
 
-        
+        // overwrite file with the updated list
         FILE *studentFile_W = fopen("students.txt", "w");
         for(int i = 0; i < tempStudentCount; i++) {
             fprintf(studentFile_W, "%s\n", tempStudentNames[i]);
         }
         fclose(studentFile_W);
 
+		// success message and refresh list
         printf(">> %s HAS BEEN REMOVED!\n", studentNames[studentNo]);
         refreshStudentList();
     }
 }
 
+/*
+	sub-menu to view the current students
+	and trigger Add/Remove operations.
+*/
 void ModifyStudents() {
+	// keep showing the menu until 'Exit' is chosen
     while(true) {
         char choice;
 
+		// display the current list of students
         printf("\n\t\tCurrent Students\n");
+
+		// if nothing is in the students.txt
         if(studentCount == 0) printf("\tNone...\n");
         else {
+			// print every students
             for(int i = 0; i < studentCount; i++) {
                 printf("\t%d. %s\n", i+1, studentNames[i]);
             }
@@ -318,6 +340,7 @@ void ModifyStudents() {
         scanf(" %c", &choice);
         choice = tolower(choice);
 
+		// call the appropriate function or break loop
         if(choice == 'a') AddStudent();
         else if(choice == 'b') RemoveStudent();
         else if(choice == 'c') break;
@@ -325,12 +348,19 @@ void ModifyStudents() {
     }
 }
 
+/*
+	Initializes the student list and runs the main 
+	menu loop to route user commands (Attendance, Modify, or Exit).
+*/
 int main() {
+	// initialize students.txt
     refreshStudentList();
 
+	// keep the program running until explicit exit
     while(true) {
         char choice;
 
+		// display the program title and main menu options
         printf("------------------------------------------ << \n");
         printf("\n\t\tAttendify\n\n");
         
@@ -341,6 +371,7 @@ int main() {
         scanf(" %c", &choice);
         choice = tolower(choice);
 
+		// execute the selected feature or handle errors
         if(choice == 'a') {
             printf(">> STARTING ATTENDANCE CHECK\n\n");
             printf("------------------------------------------ << \n");
