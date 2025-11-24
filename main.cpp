@@ -129,7 +129,7 @@ void AddStudent() {
 		if(studentName == "exit") break;
 		int found = 0;
 
-		//handles name duplication
+		//checking for name duplication
 		for(int i = 0; i < studentCount; i++) {
 			if(studentName != studentNames[i]) continue;
 			found = 1;
