@@ -210,7 +210,7 @@ void RemoveStudent() {
 		}
 		studentFile_R.close();
 
-		
+		//ano meaning ng studentFile_W??
 		ofstream studentFile_W("students.txt");
 		for(int i = 0; i < tempStudentCount; i++) {
 			studentFile_W << tempStudentNames[i] << endl;
