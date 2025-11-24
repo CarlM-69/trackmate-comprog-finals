@@ -229,14 +229,17 @@ void RemoveStudent() {
         printf("\nEnter a student number to remove (type 'exit' to stop): ");
         
         int c;
-        while ((c = getchar()) != '\n' && c != EOF);
+        while ((c = getchar()) != '\n' && c != EOF); // clears buffer
 
+        // read input safely
         fgets(answer, sizeof(answer), stdin);
         answer[strcspn(answer, "\n")] = 0;
 
+        // check exit input
         if(strcmp(answer, "exit") == 0) break;
         bool isNumeric = true;
 
+        // validate if the input is numeric
         for(int i = 0; answer[i] != '\0'; i++) {
             if(isdigit(answer[i])) continue;
 
