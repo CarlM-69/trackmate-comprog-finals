@@ -7,32 +7,11 @@ using namespace std;
 
 #define MAX_STUDENTS 100
 
-string studentNames[MAX_STUDENTS]; // string array that holds student names
+string studentNames[MAX_STUDENTS];
 int studentCount = 0; 
 
-
-//ensures studentNames array is updated with students.txt contents and ensures error-free file handling?? 
 void refreshStudentList() {
-	string lineBuffer; 
-	// line buffer is dyan ilalagay temporarily yung nakuhang line sa text file
-	// kunyare:
-	/*
-		text file:
-			1. hi
-			2. hey
-			3. hoy 
-
-		--process--
-		(for loop read the text file from 1 to 3)
-
-		first iteration:
-			lineBuffer is "hi"
-		second iteration:
-			lineBuffer is "hey"
-		third iteration:
-			lineBuffer is "hoy"
-	*/
-
+	string lineBuffer;
 	ifstream studentFile("students.txt");
 
 	if(!studentFile) {
@@ -40,8 +19,6 @@ void refreshStudentList() {
 		return;
 	}
 
-	
-	//for loop - stores the line per text of file (students.txt) in studentNames  (\n???)
 	for(studentCount = 0; studentCount < MAX_STUDENTS && getline(studentFile, lineBuffer); studentCount++) {
 		studentNames[studentCount] = lineBuffer;
 	}
@@ -81,7 +58,6 @@ void AttendanceCheck() {
 		}
 	}
 
-	//initializes time for attendance logs
 	time_t currentTime = time(0);
 	tm* localTime = localtime(&currentTime);
 
@@ -91,19 +67,12 @@ void AttendanceCheck() {
 		+ to_string(localTime->tm_year % 100)
 		+ ".txt";
 	
-
-	// ofstream is:
-	// o - output
-	// f - file
-	// 	   stream
-	// it means gagawa ng new file
 	ofstream generatedAttendance(filename);
 	if(!generatedAttendance) {
 		cout << ">> ERROR: Can't create attendance log!" << "\n\n";
 		return;
 	}
 
-	//prints every status of every student in an AttendanceLogs File
 	for(int i = 0; i < studentCount; i++) {
 		generatedAttendance << studentStatus[i] << "\t\t|\t\t" << studentNames[i] << endl;
 	}
@@ -122,21 +91,20 @@ void AddStudent() {
 		string studentName;
 		char confirm;
 
-		cout << endl << "Enter a name to add(type 'exit' to stop): ";
+		cout << endl << "Enter a name to add (type 'exit' to stop): ";
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		getline(cin, studentName);
 
 		if(studentName == "exit") break;
 		int found = 0;
 
-		//checking for name duplication
+		//handles name duplication
 		for(int i = 0; i < studentCount; i++) {
 			if(studentName != studentNames[i]) continue;
 			found = 1;
 			break;
 		}
 		
-		//handles name duplication
 		if(found) {
 			cout << ">> " << studentName << " ALREADY EXISTS!" << endl;
 			continue;
@@ -161,7 +129,6 @@ void AddStudent() {
 			return;
 		}
 
-		//adds new student name to students.txt
 		studentFile << studentName << endl;
 		studentFile.close();
 
@@ -178,31 +145,45 @@ void RemoveStudent() {
 	}
 
 	while(true) {
-		string studentName;
+		cout << "\n\t\tCurrent Students" << endl;
+		if(studentCount == 0) cout << "\tNone..." << endl;
+		else {
+			for(int i = 0; i < studentCount; i++) {
+				cout << "\t" << i+1 << ". " << studentNames[i] << endl;
+			}
+		}
+
+		string answer;
 		char confirm;
 
-		cout << endl << "Enter a name to remove(type 'exit' to stop): ";
+		cout << endl << "Enter a student number to remove (type 'exit' to stop): ";
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		getline(cin, studentName);
+		getline(cin, answer);
 
-		if(studentName == "exit") break;
-		bool found = false;
-		
-		//checks if the student exists
-		for(int i = 0; i < studentCount; i++) {
-			if(studentName != studentNames[i]) continue;
-			found = true;
+		if(answer == "exit") break;
+		bool isNumeric = true;
+
+		for(char c : answer) {
+			if(isdigit(c)) continue;
+
+			isNumeric = false;
 			break;
 		}
 
-		if(!found) {
-			cout << ">> " << studentName << " DOESN'T EXISTS!" << endl;
+		if(!isNumeric) {
+			cout << "INVALID!" << endl;
+			continue;
+		}
+
+		int studentNo = stoi(answer) - 1;
+		if(studentNo > studentCount || studentNo < 0) {
+			cout << ">> STUDENT NO. " << studentNo << " DOESN'T EXIST!";
 			continue;
 		}
 
 		while(true) {
 			cout << "Are you sure you want to remove" << endl;
-			cout << "+ " << studentName << "? (Y/n)" << endl;
+			cout << "+ " << studentNames[studentNo] << "? (Y/n)" << endl;
 			cout << ">> ";
 			cin >> confirm;
 			confirm = tolower(confirm);
@@ -213,7 +194,6 @@ void RemoveStudent() {
 
 		if(confirm == 'n') continue;
 
-		//temporary storage of students text file contents
 		ifstream studentFile_R("students.txt");
 		string tempStudentNames[MAX_STUDENTS];
 		string lineBuffer;
@@ -224,26 +204,23 @@ void RemoveStudent() {
 			return;
 		}
 
-		//temporarily stores text file contents to tempStudentNames
 		while(getline(studentFile_R, lineBuffer)) {
-			if(lineBuffer == studentName) continue;
+			if(lineBuffer == studentNames[studentNo]) continue;
 			tempStudentNames[tempStudentCount] = lineBuffer;
 			tempStudentCount++;
 		}
 		studentFile_R.close();
 
-		
+		//ano meaning ng studentFile_W??
 		ofstream studentFile_W("students.txt");
-		//rewrites the students.txt file without the removed student
 		for(int i = 0; i < tempStudentCount; i++) {
 			studentFile_W << tempStudentNames[i] << endl;
 		}
 		studentFile_W.close();
 
-		cout << ">> " << studentName << " HAS BEEN REMOVED!" << endl;
+		cout << ">> " << studentNames[studentNo] << " HAS BEEN REMOVED!" << endl;
+		refreshStudentList();
 	}
-
-	refreshStudentList();
 }
 
 void ModifyStudents() {
@@ -279,7 +256,7 @@ int main() {
 		char choice;
 
 		cout << "------------------------------------------ << " << endl;
-		cout << endl << "\t\tTrackMate" << "\n\n";
+		cout << endl << "\t\tAttendify" << "\n\n";
 		
 		cout << "+ A: Start Attendance Check" << endl;
 		cout << "+ B: Modify Students" << endl;
@@ -297,7 +274,7 @@ int main() {
 			cout << "------------------------------------------ << " << endl;
 			ModifyStudents();
 		} else if(choice == 'c') {
-			cout << ">> EXITING APP" << "\n\n";
+			cout << ">> EXITING APP" << "\n";
 			break;
 		} else {
 			cout << ">> INVALID!" << endl;
