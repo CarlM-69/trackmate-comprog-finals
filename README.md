@@ -1,6 +1,6 @@
-# TrackMate
+# Attendify
 
-TrackMate is a simple **C++ console application** designed to help teachers or organizers manage student attendance efficiently. It allows adding, removing, and tracking students while generating daily attendance logs automatically.
+Attendify is a simple **C++ console application** designed to help teachers or organizers manage student attendance efficiently. It allows adding, removing, and tracking students while generating daily attendance logs automatically.
 
 ---
 
@@ -22,7 +22,7 @@ TrackMate is a simple **C++ console application** designed to help teachers or o
 
 ## File Structure
 
-TrackMate/
+Attendify/
 
 ├─ AttendanceLogs/   | Folder where attendance logs are saved
 
@@ -30,13 +30,13 @@ TrackMate/
 
 ├─ README.md         | Project Documentation
 
-└─ main.cpp          | Main program file
+└─ main.c            | Main program file
 
 ---
 
 ## How It Works
 
-1. On startup, `TrackMate` reads the list of students from `students.txt`.
+1. On startup, `Attendify` reads the list of students from `students.txt`.
 2. Users can choose to:
    - Start an attendance check
    - Modify the student list
@@ -57,4 +57,4 @@ TrackMate/
 1. Compile the program with a C++ compiler:
 
 ```bash
-g++ main.cpp -o TrackMate
+g++ main.cpp -o Attendify
